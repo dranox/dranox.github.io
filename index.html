@@ -77,34 +77,38 @@
         <button class="button-arounder" id="redirectButton">My Darling, Click me bé Thuỳ ui</button>
     </div>
     <script>
+        document.getElementById("redirectButton").addEventListener("click", function () {
+            window.location.href = "./file/index.html";
+        });
+
         function createHeart() {
             const heart = document.createElement("div");
             heart.classList.add("heart");
             document.body.appendChild(heart);
-    
+
             // Vị trí ngẫu nhiên
             const left = Math.random() * 100;
             heart.style.left = `${left}vw`;
-    
+
             // Kích thước ngẫu nhiên
             const size = Math.random() * 20 + 20; // Từ 20px đến 40px
             heart.style.width = `${size}px`;
             heart.style.height = `${size}px`;
-    
+
             // Xoay ngẫu nhiên
             heart.style.transform = `rotate(${Math.random() * 360}deg)`;
-    
+
             // Thời gian bay ngẫu nhiên
             heart.style.animationDuration = `${Math.random() * 2 + 3}s`;
-    
+
             // Xóa sau khi kết thúc
             setTimeout(() => {
                 heart.remove();
             }, 4000);
         }
-    
-        // Tạo trái tim liên tục
-        setInterval(createHeart, 500);
+
+    // Tạo trái tim liên tục
+    setInterval(createHeart, 500);
     </script>
 </body>
 </html>

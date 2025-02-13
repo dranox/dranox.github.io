@@ -7,7 +7,7 @@
         body {
             text-align: center;
             font-family: Arial, sans-serif;
-            background-color: pink;
+            background-color: rgba(255,211,210,255);
         }
         .game-container {
             display: flex;
@@ -63,6 +63,14 @@
         .shuffle-button:active {
             transform: scale(0.95);
         }
+        .dog-img {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: auto;
+        }
     </style>
 </head>
 <body>
@@ -76,6 +84,7 @@
     </div>
     <p id="message"></p>
     <canvas class="fireworks"></canvas>
+    <img src="dog.gif" alt="Dog" class="dog-img">
     <script>
         let heartPosition = 0;
         function shuffleCups() {

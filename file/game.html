@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chơi một chút cho zui nhaaa</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: pink;
+        }
+        .game-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+        .cup {
+            width: 80px;
+            height: 100px;
+            background-color: brown;
+            display: inline-block;
+            margin: 20px;
+            cursor: pointer;
+            border-radius: 10px;
+            position: relative;
+        }
+        .hidden-heart {
+            width: 50px;
+            height: 50px;
+            font-size: 50px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+        .fireworks {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            display: none;
+        }
+        .shuffle-button {
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            outline: none;
+            margin-top: 20px;
+        }
+        .shuffle-button:hover {
+            background: linear-gradient(to right, #ff4b2b, #ff416c);
+            transform: scale(1.1);
+        }
+        .shuffle-button:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+    <h1>Một chút phá cùng anh nè ❤️</h1>
+    <p>Em tìm trái tim trong 3 cái cốc này ó</p>
+    <button class="shuffle-button" onclick="shuffleCups()">Chơi lại thì bấm vào đâyy nhennn</button>
+    <div class="game-container">
+        <div class="cup" onclick="checkCup(0)"><span class="hidden-heart">❤️</span></div>
+        <div class="cup" onclick="checkCup(1)"><span class="hidden-heart">❤️</span></div>
+        <div class="cup" onclick="checkCup(2)"><span class="hidden-heart">❤️</span></div>
+    </div>
+    <p id="message"></p>
+    <canvas class="fireworks"></canvas>
+    <script>
+        let heartPosition = 0;
+        function shuffleCups() {
+            document.getElementById("message").innerText = "";
+            document.querySelector(".fireworks").style.display = "none";
+            const cups = document.querySelectorAll(".hidden-heart");
+            cups.forEach(cup => cup.style.display = "none");
+            heartPosition = Math.floor(Math.random() * 3);
+        }
+        function checkCup(index) {
+            if (index === heartPosition) {
+                document.getElementById("message").innerText = "Giỏi quá trời quá đất, em tìm thấy tim anh rùi ❤️";
+                document.querySelectorAll(".hidden-heart")[index].style.display = "block";
+                launchFireworks();
+            } else {
+                document.getElementById("message").innerText = "Hong đúng rùi, em chọnn lạiii nhennnn";
+            }
+        }
+        function launchFireworks() {
+            const canvas = document.querySelector(".fireworks");
+            const ctx = canvas.getContext("2d");
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            canvas.style.display = "block";
+            let particles = [];
+            function createParticle(x, y) {
+                return {
+                    x,
+                    y,
+                    radius: Math.random() * 3 + 2,
+                    color: `hsl(${Math.random() * 360}, 100%, 60%)`,
+                    speedX: (Math.random() - 0.5) * 8,
+                    speedY: (Math.random() - 0.5) * 8,
+                    life: 50
+                };
+            }
+            for (let i = 0; i < 50; i++) {
+                particles.push(createParticle(canvas.width / 2, canvas.height / 2));
+            }
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach((p, i) => {
+                    p.x += p.speedX;
+                    p.y += p.speedY;
+                    p.life--;
+                    if (p.life <= 0) particles.splice(i, 1);
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color;
+                    ctx.fill();
+                });
+                if (particles.length > 0) requestAnimationFrame(animate);
+                else canvas.style.display = "none";
+            }
+            animate();
+        }
+    </script>
+</body>
+</html>
